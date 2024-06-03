@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a21e1def-eb36-4df2-8d0c-ce89bb9de1be" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="arithmetic-cicd-apiFlow" doc:id="f70d439e-7fdd-4a5b-95e8-1200ee29cb34" >
+		<http:listener doc:name="Listener" doc:id="e67fb591-7f1f-49db-8ada-6a077328b6ea" config-ref="HTTP_Listener_config" path="/arithmetic"/>
+		<logger level="INFO" doc:name="start" doc:id="518b0373-536d-4160-b6c3-8238da2d8316" message="----------------- Arithmetic API is Invoked ----------------------"/>
+		<set-variable value="#[attributes.queryParams.num1]" doc:name="num1" doc:id="54b5e54e-fd57-4ccc-97c7-18a5da902112" variableName="num1"/>
+		<set-variable value="#[attributes.queryParams.num2]" doc:name="num2" doc:id="848c7ef0-f6ff-4ee8-86d9-10633d32825c" variableName="num2"/>
+		<ee:transform doc:name="logic" doc:id="75492dd2-efd9-47e7-9daf-fdfa1640310c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Example API used for CICD Setup using Jenkins",
+	"addition": (vars.num1 as Number + vars.num2 as Number),
+	"subtraction": (vars.num1 as Number - vars.num2 as Number),
+	"multiplication": (vars.num1 as Number * vars.num2 as Number),
+	"division": (vars.num1 as Number / vars.num2 as Number)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end" doc:id="4e3ad78c-ff78-4cec-a28f-5a46b7bf9dd0" message="----------- Arithmetic API completed successfully --------------"/>
+	</flow>
+</mule>
