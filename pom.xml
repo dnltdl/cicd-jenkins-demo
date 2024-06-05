@@ -35,8 +35,8 @@
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
 						<muleVersion>4.6.1</muleVersion>
-						<username>${PLATFORM_USERNAME}</username>
-						<password>${PLATFORM_PASSWORD}</password>
+						<username>muleuser-0624</username>
+						<password>Mulesoft#1</password>
 						<applicationName>arithmetic-cicd-api-060524</applicationName>
 						<environment>DEV</environment>
 						<region>us-east-2</region>
